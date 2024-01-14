@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交预约</title>
+  
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css'%}">
+    
+    <style>
+      body {
+        background-color: #a5bdd4;
+        color: #343a40;
+        font-family: 'Arial', sans-serif;
+        padding: 20px;
+        
+      }
+  
+      h1 {
+        color: #112434;
+        text-align: center; /* 文字居中 */
+
+      }
+      label {
+            margin-right: 10px;
+      }
+      form {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 700px; /* 调整max-width */
+        margin: auto; /* 水平居中 */
+        margin-top: 10vh; /* 垂直居中 */
+      }
+      .container {
+          position: relative;
+          min-height: 80vh;
+          background-color: #fff; /* 白色容器背景 */
+          border-radius: 8px; /* 圆角边框 */
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+          flex-grow: 1;
+          margin-right: 20px; /* 将 margin-right 移动到这里 */
+          margin-top: 20px;
+      }
+     
+  
+      /* 示例按钮样式 */
+      .btn-primary {
+          background-color: #a5bdd4; /* 与网页背景颜色相同 */
+          border-color: #f8f9fa; /* 与网页背景颜色相同 */
+          margin: 0; /* 去除默认的body边距 */
+          margin-right: 20px;
+          color: #333;
+          text-decoration: underline;
+          margin-top: 20px;
+      }
+
+      .btn-primary:hover {
+          background-color: #112434; /* 鼠标悬停时的背景颜色 */
+          border-color: #112434; /* 鼠标悬停时的边框颜色 */
+      }
+
+      .form-group label {
+          margin-top: 15px; /* 或者使用 margin-top，根据需要调整 */
+      }
+    </style>
+  </head>
+  <body>
+  
+      <form method="post"> 
+        <h1>提交预约</h1>
+
+        <!-- 日期选择 -->
+        <div class="form-group">
+          <label for="appointment_time">选择日期：</label>
+          <input type="date" class="form-control" id="appointment_time" name="appointment_time" required>
+          <span id="date-error" style="color: red;"></span>
+        </div>
+        
+        <script>
+          function validateDateTime() {
+              var selectedDate = new Date(this.value);
+              var today = new Date();
+
+              // 设置选定日期和今天的时间部分为0
+              selectedDate.setHours(0, 0, 0, 0);
+              today.setHours(0, 0, 0, 0);
+
+              if (selectedDate < today) {
+                document.getElementById('date-error').innerText = '选择的日期必须不早于今天';
+                this.setCustomValidity('选择的日期必须不早于今天');
+              } else {
+                document.getElementById('date-error').innerText = '';
+                this.setCustomValidity('');
+              }
+            }
+
+              document.getElementById('appointment_time').addEventListener('change', validateDateTime);
+        </script>
+  
+        <!-- 时段选择 -->
+        <div class="form-group">
+          {% csrf_token %}
+          <label for="period">选择时段：</label>
+          <select class="form-control" id="period" name="period">
+            {% for k, v in options %}
+              <option value="{{ k }}">{{ v }}</option>
+            {% endfor %}
+          </select>
+          <span id="time-error" style="color: red;"></span>
+        </div>
+
+        <div class="row justify-content-center">
+              <button type="submit" class="btn btn-primary">提交预约</button>
+        <a href="#" class="btn btn-primary" onclick="goBack()">返回</a>
+        </div>
+      
+      </form>
+    </div>
+        <script>
+            function validateTime() {
+                var selectedDate = new Date(document.getElementById('appointment_time').value);
+                var selectedPeriod = document.getElementById('period').value;
+                var now = new Date();
+                var currentHour = now.getHours();
+            
+                // 设置选定日期和今天的时间部分为0
+                selectedDate.setHours(0, 0, 0, 0);
+                now.setHours(0, 0, 0, 0);
+            
+                var periodStartHours = [10, 12, 16, 18];
+            
+                if (selectedDate.getTime() === now.getTime() && currentHour >= periodStartHours[selectedPeriod]) {
+                    document.getElementById('time-error').innerText = '不能选择过去的时段';
+                    document.getElementById('period').setCustomValidity('不能选择过去的时段');
+                } else {
+                    document.getElementById('time-error').innerText = '';
+                    document.getElementById('period').setCustomValidity('');
+                }
+            }
+
+            // 绑定到两个事件
+            document.getElementById('period').addEventListener('change', validateTime);
+            document.getElementById('appointment_time').addEventListener('change', validateTime);
+
+            // JavaScript 函数，用于返回上一页
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+  </body>
+  </html>

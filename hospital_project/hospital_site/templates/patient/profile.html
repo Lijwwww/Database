@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医生详情</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css'%}"/>
+
+
+  <style>
+    /* 自定义样式 */
+    body {
+      height: 100%;
+      background-color: #a5bdd4; /* 设置白色背景 */
+      overflow: hidden;
+      padding: 0px;
+}
+
+  .container {
+    margin-top: 20px;
+    background-color:#f8f9fa;
+    width: 90%;
+    height: 94vh;
+  }
+    /* 示例按钮样式 */
+    .btn-primary {
+        background-color: #98b0c6; /* 与网页背景颜色相同 */
+        border-color: #f8f9fa; /* 与网页背景颜色相同 */
+        margin: 0; /* 去除默认的body边距 */
+        margin-right: 20px;
+        color: #f8f9fa;
+    }
+
+    .btn-primary:hover {
+        background-color: #112434; /* 鼠标悬停时的背景颜色 */
+        border-color: #a5bdd4; /* 鼠标悬停时的边框颜色 */
+    }
+   /* 设置图片样式 */
+   .doctor-img {
+      max-width: 100%; /* 图片宽度最大不超过其容器 */
+      border-radius: 50%; /* 设置圆角边框，可以调整为合适的值 */
+      margin-bottom: 20px; /* 添加底部外边距 */
+    }
+    /* 修改表单输入框样式 */
+.form-control {
+  display: inline-block; /* 将输入框显示为行内块级元素 */
+  width: auto; /* 让输入框自适应内容宽度 */
+  margin: 0 5px; /* 添加一些水平间距 */
+}
+ h3 {
+  text-align: left;
+  padding-top: 10px;
+  color: #f8f9fa;
+  padding-bottom: 10px;
+  
+ }
+ label {
+  font-size: 20px;/*字体大小*/
+ }
+ p {
+  font-size: 20px;
+  line-height: 24px;
+ }
+ a {
+    text-decoration: none;
+    color: #112434;
+  }
+
+  a:hover {
+    color: #fff;
+    background-color: #112434;
+  }
+
+ .return-link {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    margin-right: 40px;
+    margin-top: 20px;
+    text-decoration: underline;
+    font-size: 1.2em; /* 调整字体大小 */
+  }
+  </style>
+</head>
+<body>
+  <script>
+    function goBack() {  
+        window.history.back();
+    }
+</script>
+<a href="#" class="return-link" onclick="goBack()">返回上一页</a>
+  <div class="container "> 
+      <div class="col-12 text-center" style="background-color: #112434; ">
+          <h3>详情介绍</h3>
+      </div>
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>{{ doctor.name }}</h1>
+      </div>
+    </div><hr>
+  
+    <div class="row mt-3" style="text-align: center; " >
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="title"> 职称: </label>
+          <p>{{ doctor.title }}</p>         
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="department">所属科室:</label>
+          <p>{{ doctor.dept.name }}</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="department">科室房间号:</label>
+          <p>{{ doctor.dept.room_number }}</p>
+        </div>
+      </div>
+    </div>
+    <hr>
+  
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group" style="text-align: center;">
+          <label for="profile">简介:</label>
+          <p style="font-size: 24px;">{{ doctor.profile }}</p>
+        </div>
+      </div>
+    </div>
+  
+    
+  </div>
+
+</body>
+</html>
