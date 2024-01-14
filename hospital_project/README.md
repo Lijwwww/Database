@@ -8,10 +8,10 @@ Django 3.0.0  / 5.0.0
 pip install Django==3.0.0
 ```
 
-创建Django项目：
-`django-admin startproject 项目名`
-创建app：
-`python manage.py startapp 应用名`
+创建Django项目：  
+`django-admin startproject 项目名`  
+创建app：  
+`python manage.py startapp 应用名`  
 
 确保配置并建立好数据库，然后将`connect_db`中`settings.py`的`DATABASE`修改为  
 ```py
